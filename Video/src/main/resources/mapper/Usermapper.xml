@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <!-- namespace:代表这个文件的命名空间。根据这个名词可以定位到这个文件 -->
+<mapper namespace="com.zhiyou.mapper.UserMapper">
+	
+	<resultMap type="user" id="userMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="age" property="age"/>
+		<result column="sex" property="sex"/>
+		<result column="username" property="username"/>
+		<result column="password" property="password"/>
+	</resultMap>
+	
+	<insert id="add" parameterType="user">
+		insert into user values(#{id},#{name},#{age},#{sex},#{username},#{password});
+	</insert>
+	
+	<delete id="delete">
+		delete from user where id=#{asdd};
+	</delete>	
+ 	
+	
+	<update id="update" parameterType="user">
+		update user 
+ 		<set>
+	 		<if test="name!=null">
+	 			name=#{name},
+	 		</if>
+	 		<if test="age!=0">
+	 			age=#{age},
+	 		</if>
+	 		<if test="sex!=null">
+	 			sex=#{sex},
+	 		</if>
+	 		<if test="username!=null">
+	 			username=#{username},
+	 		</if>
+	 		<if test="password!=null">
+	 			password=#{password}
+	 		</if>
+	 	</set>
+ 		where id=#{id};
+	 </update>
+	
+	
+	<select id="selectAll" resultMap="userMap">
+		select * from user;
+	</select>
+	
+	
+	<select id="selectById" resultMap="userMap">
+		select * from user where id=#{id};
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	<select id="select" resultMap="userMap" parameterType="user">
+		select * from user  
+		<where>
+			<choose>
+				<when test="id!=0">
+			 		id=#{id} 
+			 	</when>
+				<when test="name!=null">
+			 		and name=#{name} 
+			 	</when>
+			 	<when test="age!=0">
+			 		and	age=#{age}
+			 	</when>
+			 	<when test="sex!=null">
+			 		and sex=#{sex}
+			 	</when>
+			 	<when test="username!=null">
+			 		and username=#{username}
+			 	</when>
+			 	<otherwise>
+			 		and password=#{password}
+			 	</otherwise>
+		 	</choose>
+		</where>
+	</select>
+	
+	<select id="selectLike" resultMap="userMap" parameterType="user">
+		<include refid="as"/>
+	</select>
+	
+	
+	<sql id="as" >
+		select * from user  
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="id!=0">
+	 		    id like concat('%',#{id},'%') 
+	 		</if>
+			<if test="name!=null">
+	 			and name like concat('%',#{name},'%') 
+	 		</if>
+	 		<if test="age!=0">
+	 			and	age like concat('%',#{age},'%') 
+	 		</if>
+	 		<if test="sex!=null">
+	 			and sex like concat('%',#{sex},'%') 
+	 		</if>
+	 		<if test="username!=null">
+	 			and username like concat('%',#{username},'%') 
+	 		</if>
+	 		<if test="password!=null">
+	 			and password like concat('%',#{password},'%') 
+	 		</if>
+		</trim>
+	</sql>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</mapper>
