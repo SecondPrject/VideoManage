@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.zhiyou.model.User;
 import com.zhiyou.service.UserService;
 
+//123
 @Controller
 public class UserController {
 
